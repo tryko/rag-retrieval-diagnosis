@@ -28,7 +28,7 @@ many failures come back.
 | part | what it covers | status |
 |---|---|---|
 | [Part 1: Diagnosing retrieval failures](part1-diagnosing-retrieval-failures.ipynb) | The honest failure count (216 becomes 171), which properties separate failures from successes, a measurement that cheated, three fix previews | published |
-| Part 2: The cause list | Reading the failures fresh and naming the causes | planned |
+| [Part 2: Why the failures fail](part2-why-the-failures-fail.ipynb) | Reading all 171 failures and naming six causes; two checks (counting each cause over the successes, and counterfactuals) that killed one guess and shrank another; which fix each cause points to | published |
 | Part 3: Counts and payoffs | How often each cause occurs; what each fix would recover | planned |
 | Part 4: The fix | Keyword-mix built and measured against the 171 failures | planned |
 
@@ -56,6 +56,25 @@ Fix previews, measured on the 171 failures:
 | a cross-encoder re-ranker | 62 (36%) |
 
 A stronger model is not the lever. The keyword signal is.
+
+## Results so far (Part 2)
+
+Same pipeline. We read all 171 failures in shuffled order, turned each
+suspected cause into a frozen rule, and labeled every question -- successes
+included -- so a cause has to separate failures from successes to count.
+
+Six causes came out: the question leans to one of its two articles; a wrong
+near-identical event captures the words; the needed fact drowns in a
+whole-article vector; the question never names its second article; a few
+broken questions; and near-copies crowd the top-10.
+
+Two checks tested each one. Counting each cause over the successes killed
+one candidate outright. A counterfactual -- remove the cause and re-score --
+showed the most common one, near-copy crowding, fixes far fewer failures
+than it appears in. Co-occurrence is not cause.
+
+The numbers, one worked example, and which fix each cause points to are in
+the notebook.
 
 ## Why NeoQA (and why there is no data here)
 
