@@ -27,9 +27,9 @@ many failures come back.
 
 | part | what it covers | status |
 |---|---|---|
-| [Part 1: Diagnosing retrieval failures](part1-diagnosing-retrieval-failures.ipynb) | The honest failure count (216 becomes 171), which properties separate failures from successes, a measurement that cheated, three fix previews | published |
+| [Part 1: Diagnosing retrieval failures](part1-diagnosing-retrieval-failures.ipynb) | The honest failure count (216 becomes 171) and how bad the real failures are | published |
 | [Part 2: Why the failures fail](part2-why-the-failures-fail.ipynb) | Reading all 171 failures and naming six causes; two checks (counting each cause over the successes, and counterfactuals) that killed one guess and shrank another; which fix each cause points to | published |
-| Part 3: Counts and payoffs | How often each cause occurs; what each fix would recover | planned |
+| [Part 3: Pricing the fixes](part3-pricing-the-fixes.ipynb) | Each fix priced from labels vs from measured runs; the wins overlap; a rewrite experiment; 48 failures no measured fix reaches (revising Part 2's 28) | published |
 | Part 4: The fix | Keyword-mix built and measured against the 171 failures | planned |
 
 ## Results so far (Part 1)
@@ -76,6 +76,26 @@ than it appears in. Co-occurrence is not cause.
 The numbers, one worked example, and which fix each cause points to are in
 the notebook.
 
+## Results so far (Part 3)
+
+Same pipeline. Each fix candidate got two prices: a ceiling from the cause
+labels, and a measured win from putting the fix into the scoring and
+re-ranking every question.
+
+- **The labels over-count every fix.** The widest gap: crowding is labeled
+  on five times more failures than removing the copies fixes.
+- **The measured wins overlap heavily.** Keyword ranking's rescue (101 of
+  171) already covers most of what the other two runs return; together the
+  three reach 123.
+- **The cheap rewrite fixes almost nothing.** Only injecting words from the
+  needed article itself lifts it, and a live system does not have those
+  words. A real rewrite fix means splitting the question -- deferred.
+- **48 failures have no measured fix.** Part 2 counted 28 from labels; the
+  measured rescue sets corrected it. The biggest block: questions that give
+  keywords nothing to grab.
+
+Next build: the keyword mix, then re-run and count what actually returns.
+
 ## Why NeoQA (and why there is no data here)
 
 The first two candidate datasets were contaminated. On MultiHop-RAG (real
@@ -99,7 +119,7 @@ decryption.
 
 ## The models used
 
-Two kinds of models appear here. Don't mix them up:
+Two kinds of models appear here:
 
 - **Under test:** open embedders (`gte-modernbert-base` as the pipeline's
   embedder, `Qwen3-Embedding-0.6B` as a stronger comparison), a cross-encoder
