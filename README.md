@@ -30,7 +30,7 @@ many failures come back.
 | [Part 1: Diagnosing retrieval failures](part1-diagnosing-retrieval-failures.ipynb) | The honest failure count (216 becomes 171) and how bad the real failures are | published |
 | [Part 2: Why the failures fail](part2-why-the-failures-fail.ipynb) | Reading all 171 failures and naming six causes; two checks (counting each cause over the successes, and counterfactuals) that killed one guess and shrank another; which fix each cause points to | published |
 | [Part 3: Pricing the fixes](part3-pricing-the-fixes.ipynb) | Each fix priced from labels vs from measured runs; the wins overlap; a rewrite experiment; 48 failures no measured fix reaches (revising Part 2's 28) | published |
-| Part 4: The fix | Keyword-mix built and measured against the 171 failures | planned |
+| [Part 4: Testing rank fusion on the failures](part4-testing-rank-fusion.ipynb) | The bar set in both directions (fixes and breaks); rank fusion built and measured; the mix loses to plain keyword ranking | published |
 
 ## Results so far (Part 1)
 
@@ -95,6 +95,22 @@ re-ranking every question.
   keywords nothing to grab.
 
 Next build: the keyword mix, then re-run and count what actually returns.
+
+## Results so far (Part 4)
+
+Same pipeline. Before the run, the test was fixed: the mix must beat
+plain keyword ranking scored in both directions -- 184 of 266 (101
+failures fixed, 12 successes broken, starting from today's 95).
+
+- **The mix lost.** Rank fusion (untuned) scored 153. It kept 57 of the
+  keyword wins, lost 44 -- most landing just past the top-10 cut -- and
+  added 7 of its own.
+- **It caused no new damage.** 6 breaks, all among plain keywords' 12.
+- **The weighted version changed nothing.** Nine slider settings, every
+  one below the bar.
+- **Ship plain keyword ranking.** It is the new system to beat. Next:
+  stacking the other measured fixes on top of it, and decomposition for
+  the questions no ranking fix reaches.
 
 ## Why NeoQA (and why there is no data here)
 
